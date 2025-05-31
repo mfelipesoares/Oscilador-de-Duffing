@@ -2,6 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Play, Settings, Info, TrendingUp, Zap } from 'lucide-react';
 
+
+interface DataPoint {
+  t: number;
+  x: number;
+  v: number;
+}
+
+interface SolutionSeries {
+  name: string;
+  data: DataPoint[];
+  color: string;
+}
+
+
 const DuffingOscillator = () => {
   const [params, setParams] = useState({
     delta: 0.1,
@@ -12,12 +26,12 @@ const DuffingOscillator = () => {
     x0: 1.0,
     v0: 2.0
   });
-
-  const [solutions, setSolutions] = useState([]);
-  const [sensitivityData, setSensitivityData] = useState([]);
+  
+const [solutions, setSolutions] = useState<SolutionSeries[]>([]);
+const [sensitivityData, setSensitivityData] = useState<SolutionSeries[]>([]);
   const [activeTab, setActiveTab] = useState('description');
 
-  const rungeKutta4 = (delta, alpha, beta, A, phi, x0, v0, epsilon = 0) => {
+  const rungeKutta4 = (delta: any, alpha: any, beta: any, A: any, phi: any, x0: any, v0: any, epsilon = 0) => {
     const dt = 0.01;
     const tMax = 20;
     const steps = Math.floor(tMax / dt);
@@ -80,7 +94,7 @@ const DuffingOscillator = () => {
     solveDuffing();
   }, [params]);
 
-  const renderChart = (data, title, yKey = 'x', yLabel = 'x(t)') => (
+  const renderChart = (data: any[], title: string | number | bigint | boolean | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | Promise<string | number | bigint | boolean | React.ReactPortal | React.ReactElement<unknown, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | null | undefined> | null | undefined, yKey = 'x', yLabel = 'x(t)') => (
     <div className="mb-6">
       <h3 className="text-lg font-semibold mb-3">{title}</h3>
       <ResponsiveContainer width="100%" height={300}>
@@ -90,7 +104,7 @@ const DuffingOscillator = () => {
           <YAxis label={{ value: yLabel, angle: -90, position: 'insideLeft' }} />
           <Tooltip />
           <Legend />
-          {data.map((series, idx) => (
+          {data.map((series: { data: unknown; name: string | undefined; color: string | undefined; }, idx: React.Key | null | undefined) => (
             <Line 
               key={idx}
               dataKey={yKey}
