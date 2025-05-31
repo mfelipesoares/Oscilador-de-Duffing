@@ -1,54 +1,42 @@
-# React + TypeScript + Vite
+# Oscilador de Duffing 🎢
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+O Oscilador de Duffing é descrito pela equação diferencial ordinária de segunda ordem:
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+* **Não Linearidade:** A equação é **não linear** devido ao termo **β**x**3**. Se **β**=**0**, a equação se torna linear, representando um oscilador harmônico amortecido forçado. ^^
+* **Métodos de Solução:** Não existe uma solução analítica geral para a equação de Duffing. As soluções são tipicamente aproximadas por métodos numéricos. ^^ Métodos comuns incluem:
+  * Métodos de Runge-Kutta
+  * Métodos de diferenças finitas
+  * Software de cálculo numérico (MATLAB, Python com SciPy, etc.)
+* **Interpretação do parâmetro  :** O parâmetro **β** introduz a não linearidade na força restauradora da mola. ^^
+  * Se **β**>**0**, a mola se torna mais rígida conforme a deflexão aumenta (mola endurecedora).
+  * Se **β**<**0**, a mola se torna mais flexível conforme a deflexão aumenta (mola suavizadora). ^^
+  * **α** representa a rigidez linear da mola. ^^
+  * **δ** representa o amortecimento do sistema. ^^
+  * **A** e **φ** representam a amplitude e a frequência da força externa aplicada.
 
-## Expanding the ESLint configuration
+## 👉 Executando projeto
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+1º - Clone o repositório:
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```bash
+git clone https://github.com/mfelipesoares/Oscilador-de-Duffing.git
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+2° - Entre na pasta:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+```bash
+cd Oscilador-de-Duffing
+```
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+3° - Instale as dependências:
+
+```bash
+bun install
+```
+
+4° - Rode o projeto:
+
+```bash
+bun dev
 ```
