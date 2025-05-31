@@ -1,0 +1,63 @@
+# .github/workflows/pages.yml
+name: Deploy React-Vite site with Bun to GitHub Pages
+
+# Aciona o fluxo a cada push na branch principal ou manualmente
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Permissões mínimas exigidas pelos jobs `upload-pages-artifact` e `deploy-pages`
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Evita implantações concorrentes
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  # 1. Builda o projeto com Bun e gera o artefato
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Obtém o código
+      - uses: actions/checkout@v4
+
+      # Instala o runtime Bun
+      - uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: "latest"   # ou fixe, ex.: "1.1.5"
+
+      # Instala dependências e compila o site
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build Vite site
+        run: bun run build        # por padrão gera ./dist
+
+      # Publica o diretório gerado como artefato de páginas
+      - name: Upload build artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+  # 2. Faz o deploy no ambiente GitHub Pages
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deploy
+        uses: actions/deploy-pages@v4
