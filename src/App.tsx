@@ -26,12 +26,12 @@ const DuffingOscillator = () => {
     x0: 1.0,
     v0: 2.0
   });
-  
+
 const [solutions, setSolutions] = useState<SolutionSeries[]>([]);
 const [sensitivityData, setSensitivityData] = useState<SolutionSeries[]>([]);
   const [activeTab, setActiveTab] = useState('description');
 
-  const rungeKutta4 = (delta: any, alpha: any, beta: any, A: any, phi: any, x0: any, v0: any, epsilon = 0) => {
+  const rungeKutta4 = (delta: any, alpha: any, beta: any, A: any, phi: any, x0: any, v0: any, epsilon: any ) => {
     const dt = 0.01;
     const tMax = 20;
     const steps = Math.floor(tMax / dt);
@@ -72,7 +72,7 @@ const [sensitivityData, setSensitivityData] = useState<SolutionSeries[]>([]);
 
   const solveDuffing = () => {
     const { delta, alpha, beta, A, phi, x0, v0 } = params;
-    const solution = rungeKutta4(delta, alpha, beta, A, phi, x0, v0);
+    const solution = rungeKutta4(delta, alpha, beta, A, phi, x0, v0, 0);
     setSolutions([{ name: 'Solução Principal', data: solution, color: '#8884d8' }]);
   };
 
